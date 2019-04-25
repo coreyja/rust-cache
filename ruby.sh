@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 
-CACHE_S3_PATH="coreyja/test1" \
-  CACHE_BUCKET="cache.dokku.coreyja" \
-  CACHE_LOCAL_DIR="vendor/bundle" \
+CACHE_S3_PATH=$PLUGIN_CACHE_S3_PATH \
+  CACHE_BUCKET=$PLUGIN_CACHE_BUCKET \
+  CACHE_LOCAL_DIR=$PLUGIN_CACHE_LOCAL_DIR \
   /usr/local/rust-cache
