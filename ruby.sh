@@ -9,6 +9,8 @@ echo "v$cache_version-$gemfile_hash" > .cache_key
 CACHE_S3_PATH="$DRONE_REPO_OWNER/$DRONE_REPO_NAME/" \
   CACHE_BUCKET=$PLUGIN_CACHE_BUCKET \
   CACHE_LOCAL_DIR="vendor/bundle" \
+  AWS_ACCESS_KEY_ID=$PLUGIN_AWS_ACCESS_KEY_ID \
+  AWS_SECRET_ACCESS_KEY=$PLUGIN_AWS_SECRET_ACCESS_KEY \
   /usr/local/rust-cache
 
 rm .cache_key
