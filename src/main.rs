@@ -4,13 +4,15 @@ extern crate rusoto_core;
 extern crate rusoto_s3;
 extern crate tar;
 
+use flate2::read::GzDecoder;
 use flate2::write::GzEncoder;
 use flate2::Compression;
 use rusoto_core::Region;
-use rusoto_s3::{HeadObjectRequest, PutObjectRequest, S3Client, S3};
+use rusoto_s3::{GetObjectRequest, HeadObjectRequest, PutObjectRequest, S3Client, S3};
 use std::env;
 use std::fs::File;
 use std::io::prelude::*;
+use tar::Archive;
 
 fn create_tar(dir: &str, mut vec: &mut Vec<u8>) -> Result<(), std::io::Error> {
     let enc = GzEncoder::new(&mut vec, Compression::default());
@@ -77,16 +79,52 @@ fn does_cache_file_exist(path: String, bucket: String) -> bool {
     }
 }
 
+fn download_and_restore_cache(bucket: String, path: String) -> Result<(), std::io::Error> {
+    let client = S3Client::new(Region::UsEast1);
+    let req = GetObjectRequest {
+        bucket: bucket,
+        key: path,
+        ..Default::default()
+    };
+
+    match client.get_object(req).sync() {
+        Ok(object_output) => {
+            let tar = GzDecoder::new(
+                object_output
+                    .body
+                    .expect("Error opening body of cache file")
+                    .into_blocking_read(),
+            );
+            let mut archive = Archive::new(tar);
+            archive.unpack(".")?;
+        }
+        _ => panic!("Error downloading cache file"), // FixMe: This should return an error
+    };
+
+    Ok(())
+}
+
 fn main() -> Result<(), std::io::Error> {
     let bucket_name = env::var("CACHE_BUCKET").expect("No bucket name provided");
     let cache_key_file = env::var("CACHE_KEY_FILE").unwrap_or(".cache_key".to_string());
     let cache_s3_path = env::var("CACHE_S3_PATH").unwrap_or("".to_string());
+    let should_download = env::var("CACHE_DOWNLOAD").is_ok();
 
     let path = get_cache_filename(&cache_s3_path, &cache_key_file)?;
 
     if does_cache_file_exist(path.clone(), bucket_name.clone()) {
-        Ok(())
+        if should_download {
+            download_and_restore_cache(bucket_name.clone(), path.clone())
+        } else {
+            println!("Cache file already exists, not uploading");
+            Ok(())
+        }
     } else {
-        upload_dir(&bucket_name, &path)
+        if should_download {
+            println!("No Cache File Found");
+            Ok(())
+        } else {
+            upload_dir(&bucket_name, &path)
+        }
     }
 }
