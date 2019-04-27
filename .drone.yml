@@ -11,14 +11,14 @@ steps:
     image: plugins/docker
     settings:
       repo: coreyja/rust-cache
-      tags: latest
       purge: true
+      auto_tag: true
       username:
         from_secret: docker_hub_username
       password:
         from_secret: docker_hub_password
 ---
 kind: signature
-hmac: 31f4b94fb9309862236b916386e447b8ea259ad8f2c1772b381725d5dc32ec0f
+hmac: f10364b068a2a5d78f71ec478196ec7f8663c4143a4e19a50de2e055d2da513c
 
 ...
