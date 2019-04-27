@@ -11,7 +11,7 @@ steps:
     image: plugins/docker
     settings:
       repo: coreyja/rust-cache
-      auto_tag: true
+      tags: latest
       username:
         from_secret: docker_hub_username
       password:
