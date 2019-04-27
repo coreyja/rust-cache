@@ -12,7 +12,13 @@ steps:
     settings:
       repo: coreyja/rust-cache
       tags: latest
+      purge: true
       username:
         from_secret: docker_hub_username
       password:
         from_secret: docker_hub_password
+---
+kind: signature
+hmac: 31f4b94fb9309862236b916386e447b8ea259ad8f2c1772b381725d5dc32ec0f
+
+...
