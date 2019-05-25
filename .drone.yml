@@ -14,13 +14,25 @@ steps:
       purge: true
       auto_tag: true
       auto_tag_suffix: ruby
-      dockerfile: dockerfiles/ruby.Dockerfile
+      dockerfile: cache-types/ruby/Dockerfile
+      username:
+        from_secret: docker_hub_username
+      password:
+        from_secret: docker_hub_password
+  - name: docker
+    image: plugins/docker
+    settings:
+      repo: coreyja/rust-cache
+      purge: true
+      auto_tag: true
+      auto_tag_suffix: yarn
+      dockerfile: cache-types/yarn/Dockerfile
       username:
         from_secret: docker_hub_username
       password:
         from_secret: docker_hub_password
 ---
 kind: signature
-hmac: 1d83ea2429585ae8dd7f08fe92e144e89062fa4a2be86440aacc02c33508ccfe
+hmac: 195cd7b97148f0fb2e95405c25eb5538e2c52a3439dfdc6394c75e1c4d8055a5
 
 ...
