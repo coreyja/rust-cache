@@ -14,5 +14,5 @@ RUN rm ./target/release/deps/rust_cache* && cargo build --release
 FROM buildpack-deps:stretch
 COPY --from=build /rust-cache/target/release/rust-cache /usr/local/
 
-COPY cache-type/ruby/ruby.sh /usr/local/
+COPY cache-types/ruby/ruby.sh /usr/local/
 ENTRYPOINT ["/usr/local/ruby.sh"]
