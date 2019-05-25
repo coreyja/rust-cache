@@ -7,7 +7,7 @@ platform:
   arch: amd64
 
 steps:
-  - name: docker
+  - name: build-ruby-docker-image
     image: plugins/docker
     settings:
       repo: coreyja/rust-cache
@@ -19,7 +19,7 @@ steps:
         from_secret: docker_hub_username
       password:
         from_secret: docker_hub_password
-  - name: docker
+  - name:build-yarn-docker-image
     image: plugins/docker
     settings:
       repo: coreyja/rust-cache
