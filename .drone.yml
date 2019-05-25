@@ -11,8 +11,8 @@ steps:
   image: plugins/docker
   settings:
     auto_tag: true
-    auto_tag_suffix: ruby
-    dockerfile: cache-types/ruby/Dockerfile
+    auto_tag_suffix: base
+    dockerfile: Dockerfile
     password:
       from_secret: docker_hub_password
     purge: true
@@ -54,6 +54,6 @@ steps:
 
 ---
 kind: signature
-hmac: 5b8d8ea5c5c4a3eb172e198e67a889d7e26409e3b06287f8d49a97e30d32902d
+hmac: 9ab7485ae2ada68b9dbc02285e984e9c07c40ab19e39ae1cb1f4f10710d79fd7
 
 ...
