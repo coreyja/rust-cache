@@ -4,7 +4,7 @@ set -e
 cache_version="1"
 yarn_hash=$(md5sum yarn.lock | awk '{ print $1 }')
 
-echo "v$cache_version-$yarn_hash" > .cache_key
+echo "yarn-v$cache_version-$yarn_hash" > .cache_key
 
 if [[ -z "${PLUGIN_CACHE_DOWNLOAD}" ]]; then
   CACHE_S3_PATH="$DRONE_REPO_OWNER/$DRONE_REPO_NAME/" \

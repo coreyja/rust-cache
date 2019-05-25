@@ -7,7 +7,7 @@ platform:
   arch: amd64
 
 steps:
-- name: build-ruby-docker-image
+- name: build-base-docker-image
   image: plugins/docker
   settings:
     auto_tag: true
@@ -22,6 +22,21 @@ steps:
   depends_on:
   - clone
 
+- name: build-ruby-docker-image
+  image: plugins/docker
+  settings:
+    auto_tag: true
+    auto_tag_suffix: ruby
+    dockerfile: cache-types/ruby/Dockerfile
+    password:
+      from_secret: docker_hub_password
+    purge: true
+    repo: coreyja/rust-cache
+    username:
+      from_secret: docker_hub_username
+  depends_on:
+  - build-base-docker-image
+
 - name: build-yarn-docker-image
   image: plugins/docker
   settings:
@@ -35,7 +50,7 @@ steps:
     username:
       from_secret: docker_hub_username
   depends_on:
-  - clone
+  - build-base-docker-image
 
 ---
 kind: signature

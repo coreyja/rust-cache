@@ -4,7 +4,7 @@ set -e
 cache_version="1"
 gemfile_hash=$(md5sum Gemfile.lock | awk '{ print $1 }')
 
-echo "v$cache_version-$gemfile_hash" > .cache_key
+echo "ruby-v$cache_version-$gemfile_hash" > .cache_key
 
 if [[ -z "${PLUGIN_CACHE_DOWNLOAD}" ]]; then
   CACHE_S3_PATH="$DRONE_REPO_OWNER/$DRONE_REPO_NAME/" \
