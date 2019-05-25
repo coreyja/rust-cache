@@ -14,6 +14,7 @@ steps:
       purge: true
       auto_tag: true
       auto_tag_suffix: ruby
+      dry_run: true
       dockerfile: dockerfiles/ruby.Dockerfile
       username:
         from_secret: docker_hub_username
