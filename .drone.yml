@@ -7,32 +7,34 @@ platform:
   arch: amd64
 
 steps:
-  - name: build-ruby-docker-image
-    image: plugins/docker
-    settings:
-      repo: coreyja/rust-cache
-      purge: true
-      auto_tag: true
-      auto_tag_suffix: ruby
-      dockerfile: cache-types/ruby/Dockerfile
-      username:
-        from_secret: docker_hub_username
-      password:
-        from_secret: docker_hub_password
-  - name:build-yarn-docker-image
-    image: plugins/docker
-    settings:
-      repo: coreyja/rust-cache
-      purge: true
-      auto_tag: true
-      auto_tag_suffix: yarn
-      dockerfile: cache-types/yarn/Dockerfile
-      username:
-        from_secret: docker_hub_username
-      password:
-        from_secret: docker_hub_password
+- name: build-ruby-docker-image
+  image: plugins/docker
+  settings:
+    auto_tag: true
+    auto_tag_suffix: ruby
+    dockerfile: cache-types/ruby/Dockerfile
+    password:
+      from_secret: docker_hub_password
+    purge: true
+    repo: coreyja/rust-cache
+    username:
+      from_secret: docker_hub_username
+
+- name: build-yarn-docker-image
+  image: plugins/docker
+  settings:
+    auto_tag: true
+    auto_tag_suffix: yarn
+    dockerfile: cache-types/yarn/Dockerfile
+    password:
+      from_secret: docker_hub_password
+    purge: true
+    repo: coreyja/rust-cache
+    username:
+      from_secret: docker_hub_username
+
 ---
 kind: signature
-hmac: 195cd7b97148f0fb2e95405c25eb5538e2c52a3439dfdc6394c75e1c4d8055a5
+hmac: fedba4c1da6ba7097d6b1601733fa05611e9265c5eca4f3f360d19c9248d31bd
 
 ...
