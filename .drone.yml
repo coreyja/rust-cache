@@ -13,6 +13,8 @@ steps:
       repo: coreyja/rust-cache
       purge: true
       auto_tag: true
+      auto_tag_suffix: ruby
+      dockerfile: dockerfiles/ruby.Dockerfile
       username:
         from_secret: docker_hub_username
       password:
