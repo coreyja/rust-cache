@@ -11,7 +11,7 @@ COPY ./src ./src
 
 RUN rm ./target/release/deps/rust_cache* && cargo build --release
 
-FROM alpine:latest
+FROM debian:jessie-slim
 COPY --from=build /rust-cache/target/release/rust-cache /usr/local/
 
 ENTRYPOINT ["/usr/local/rust-cache"]
