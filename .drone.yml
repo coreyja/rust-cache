@@ -15,7 +15,6 @@ steps:
     dockerfile: cache-types/ruby/Dockerfile
     password:
       from_secret: docker_hub_password
-    purge: true
     repo: coreyja/rust-cache
     username:
       from_secret: docker_hub_username
@@ -35,6 +34,6 @@ steps:
 
 ---
 kind: signature
-hmac: fedba4c1da6ba7097d6b1601733fa05611e9265c5eca4f3f360d19c9248d31bd
+hmac: ae48003644ed4dcd58d4f430bb8befa999c9b83de3ada97da0c61fd94a6aac74
 
 ...
