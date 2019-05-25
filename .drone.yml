@@ -19,6 +19,8 @@ steps:
     repo: coreyja/rust-cache
     username:
       from_secret: docker_hub_username
+  depends_on:
+  - clone
 
 - name: build-yarn-docker-image
   image: plugins/docker
@@ -32,9 +34,11 @@ steps:
     repo: coreyja/rust-cache
     username:
       from_secret: docker_hub_username
+  depends_on:
+  - clone
 
 ---
 kind: signature
-hmac: fedba4c1da6ba7097d6b1601733fa05611e9265c5eca4f3f360d19c9248d31bd
+hmac: 5b8d8ea5c5c4a3eb172e198e67a889d7e26409e3b06287f8d49a97e30d32902d
 
 ...
