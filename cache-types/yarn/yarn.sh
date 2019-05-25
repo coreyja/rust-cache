@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -e
 
-cache_version="1"
+cache_version="2"
 yarn_hash=$(md5sum yarn.lock | awk '{ print $1 }')
 
 echo "yarn-v$cache_version-$yarn_hash" > .cache_key
