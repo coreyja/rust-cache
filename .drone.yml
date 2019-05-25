@@ -14,7 +14,6 @@ steps:
       purge: true
       auto_tag: true
       auto_tag_suffix: ruby
-      dry_run: true
       dockerfile: dockerfiles/ruby.Dockerfile
       username:
         from_secret: docker_hub_username
@@ -22,6 +21,6 @@ steps:
         from_secret: docker_hub_password
 ---
 kind: signature
-hmac: f10364b068a2a5d78f71ec478196ec7f8663c4143a4e19a50de2e055d2da513c
+hmac: 1d83ea2429585ae8dd7f08fe92e144e89062fa4a2be86440aacc02c33508ccfe
 
 ...
