@@ -36,6 +36,7 @@ local steps = [
   BuildBaseStep,
   BuildCacheTypeStep("ruby"),
   BuildCacheTypeStep("yarn"),
+  BuildCacheTypeStep("rust"),
 ];
 
 {
