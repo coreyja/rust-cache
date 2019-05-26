@@ -18,6 +18,7 @@ fn create_tar(dirs: &Vec<&str>, mut vec: &mut Vec<u8>) -> Result<(), std::io::Er
     let enc = GzEncoder::new(&mut vec, Compression::default());
     let mut tar = tar::Builder::new(enc);
     for dir in dirs {
+        println!("Taring dir... {}", dir);
         tar.append_dir_all(&dir, &dir)?;
     }
 
@@ -48,6 +49,7 @@ fn upload_dir(bucket_name: &str, cache_path: &str) -> Result<(), std::io::Error>
             env::var("CACHE_LOCAL_DIR").expect("No local cache dir specified");
         let cache_local_paths: Vec<&str> = cache_local_paths_string.split(",").collect();
         create_tar(&cache_local_paths, &mut contents)?;
+        println!("Tar created. Uploading...");
     }
 
     {
@@ -104,6 +106,26 @@ fn download_and_restore_cache(bucket: String, path: String) -> Result<(), std::i
     Ok(())
 }
 
+fn download(bucket: String, path: String) -> Result<(), std::io::Error> {
+    if does_cache_file_exist(path.clone(), bucket.clone()) {
+        println!("Cache file found, downloading and restoring: {}", path);
+        download_and_restore_cache(bucket.clone(), path.clone())
+    } else {
+        println!("No Cache File Found");
+        Ok(())
+    }
+}
+
+fn upload(bucket: String, path: String) -> Result<(), std::io::Error> {
+    if does_cache_file_exist(path.clone(), bucket.clone()) {
+        println!("Cache file already exists, not uploading");
+        Ok(())
+    } else {
+        println!("Uploading new Cache");
+        upload_dir(&bucket, &path)
+    }
+}
+
 fn main() -> Result<(), std::io::Error> {
     let bucket_name = env::var("CACHE_BUCKET").expect("No bucket name provided");
     let cache_key_file = env::var("CACHE_KEY_FILE").unwrap_or(".cache_key".to_string());
@@ -115,19 +137,9 @@ fn main() -> Result<(), std::io::Error> {
         Err(e) => panic!("Unable to read cache key {}", e),
     };
 
-    if does_cache_file_exist(path.clone(), bucket_name.clone()) {
-        if should_download {
-            download_and_restore_cache(bucket_name.clone(), path.clone())
-        } else {
-            println!("Cache file already exists, not uploading");
-            Ok(())
-        }
+    if should_download {
+        download(bucket_name.clone(), path.clone())
     } else {
-        if should_download {
-            println!("No Cache File Found");
-            Ok(())
-        } else {
-            upload_dir(&bucket_name, &path)
-        }
+        upload(bucket_name.clone(), path.clone())
     }
 }
