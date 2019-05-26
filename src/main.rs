@@ -14,10 +14,12 @@ use std::fs::File;
 use std::io::prelude::*;
 use tar::Archive;
 
-fn create_tar(dir: &str, mut vec: &mut Vec<u8>) -> Result<(), std::io::Error> {
+fn create_tar(dirs: &Vec<&str>, mut vec: &mut Vec<u8>) -> Result<(), std::io::Error> {
     let enc = GzEncoder::new(&mut vec, Compression::default());
     let mut tar = tar::Builder::new(enc);
-    tar.append_dir_all(&dir, &dir)?;
+    for dir in dirs {
+        tar.append_dir_all(&dir, &dir)?;
+    }
 
     Ok(())
 }
@@ -42,8 +44,10 @@ fn upload_dir(bucket_name: &str, cache_path: &str) -> Result<(), std::io::Error>
     let mut contents: Vec<u8> = Vec::new();
 
     {
-        let cache_local_path = env::var("CACHE_LOCAL_DIR").expect("No local cache dir specified");
-        create_tar(&cache_local_path, &mut contents)?;
+        let cache_local_paths_string =
+            env::var("CACHE_LOCAL_DIR").expect("No local cache dir specified");
+        let cache_local_paths: Vec<&str> = cache_local_paths_string.split(",").collect();
+        create_tar(&cache_local_paths, &mut contents)?;
     }
 
     {

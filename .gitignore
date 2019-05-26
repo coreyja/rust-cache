@@ -1,6 +1,7 @@
 /target
 **/*.rs.bk
 
+.cache_key
 cache/**/*
 archive.tar.gz
 
