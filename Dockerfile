@@ -1,4 +1,4 @@
-FROM clux/muslrust as build
+FROM rust:latest as build
 
 WORKDIR /rust-cache
 COPY ./Cargo.lock ./Cargo.lock
