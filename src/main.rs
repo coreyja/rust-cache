@@ -51,10 +51,6 @@ fn upload_dir(bucket_name: &str, cache_path: &str) -> Result<(), std::io::Error>
     }
 
     {
-        // let bucket_name = env::var("CACHE_BUCKET").expect("No bucket name provided");
-        // let cache_key_file = env::var("CACHE_KEY_FILE").unwrap_or(".cache_key".to_string());
-        // let cache_s3_path = env::var("CACHE_S3_PATH").unwrap_or("./".to_string());
-
         let client = S3Client::new(Region::UsEast1);
         let req = PutObjectRequest {
             bucket: bucket_name.to_string(),
@@ -114,7 +110,10 @@ fn main() -> Result<(), std::io::Error> {
     let cache_s3_path = env::var("CACHE_S3_PATH").unwrap_or("".to_string());
     let should_download = env::var("CACHE_DOWNLOAD").is_ok();
 
-    let path = get_cache_filename(&cache_s3_path, &cache_key_file)?;
+    let path = match get_cache_filename(&cache_s3_path, &cache_key_file) {
+        Ok(p) => p,
+        Err(e) => panic!("Unable to read cache key {}", e),
+    };
 
     if does_cache_file_exist(path.clone(), bucket_name.clone()) {
         if should_download {
