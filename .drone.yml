@@ -15,7 +15,6 @@ steps:
     dockerfile: Dockerfile
     password:
       from_secret: docker_hub_password
-    purge: true
     repo: coreyja/rust-cache
     username:
       from_secret: docker_hub_username
@@ -54,6 +53,6 @@ steps:
 
 ---
 kind: signature
-hmac: 9ab7485ae2ada68b9dbc02285e984e9c07c40ab19e39ae1cb1f4f10710d79fd7
+hmac: 8f97ec4dcc7e4ff9a42c210cafc144ba84ae8c8a9e6ccbb66e4d8c3b4850cb8b
 
 ...

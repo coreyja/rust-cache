@@ -18,6 +18,7 @@ local BuildBaseStep = BuildDockerFileBase {
   "settings"+: {
     "auto_tag_suffix": "base",
     "dockerfile": "Dockerfile",
+    "purge": false,
   },
   "depends_on": ["clone"],
 };
