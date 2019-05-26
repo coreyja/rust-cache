@@ -51,8 +51,23 @@ steps:
   depends_on:
   - build-base-docker-image
 
+- name: build-rust-docker-image
+  image: plugins/docker
+  settings:
+    auto_tag: true
+    auto_tag_suffix: rust
+    dockerfile: cache-types/rust/Dockerfile
+    password:
+      from_secret: docker_hub_password
+    purge: true
+    repo: coreyja/rust-cache
+    username:
+      from_secret: docker_hub_username
+  depends_on:
+  - build-base-docker-image
+
 ---
 kind: signature
-hmac: 8f97ec4dcc7e4ff9a42c210cafc144ba84ae8c8a9e6ccbb66e4d8c3b4850cb8b
+hmac: ffd7f02bbe93aa1274c6dc2d88fadc47a64bb5d0afbb62206a634d9ed476f4e4
 
 ...
