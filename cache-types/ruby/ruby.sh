@@ -22,6 +22,3 @@ else
     AWS_SECRET_ACCESS_KEY="$PLUGIN_AWS_SECRET_ACCESS_KEY" \
     /usr/local/rust-cache
 fi
-
-
-rm .cache_key
